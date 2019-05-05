@@ -19,8 +19,8 @@ export class BlueprintComponent {
     }
 }
 
-export interface Blueprint {
+export interface Blueprint<T extends {[k: string]: Component}> {
     name: string;
-    components: { name: string, values?: any }[],
+    components: Partial<{ [k in keyof T]: T[k][keyof Pick<T[k], 'value'>]}>,
     blueprints?: string[]
 }

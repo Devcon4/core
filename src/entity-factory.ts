@@ -1,13 +1,14 @@
 import { BlueprintClass, BlueprintComponent, Blueprint } from "./blueprint";
 import { Entity } from "./entity";
+import { Component } from "./component";
 
-export class EntityFactory {
+export class EntityFactory<T extends {[k: string]: Component}> {
     private blueprints: Set<BlueprintClass> = new Set();
     private components;
 
     // TODO - Consider a caching strategy if we've already built an entity;
     
-    constructor(blueprintTemplates: Set<Blueprint>, componentModule) {
+    constructor(blueprintTemplates: Set<Blueprint<T>>, componentModule) {
         if(this.validateBlueprints(blueprintTemplates)) {
             this.components = componentModule;
             this.blueprints = this.buildBlueprintsFromTemplates(blueprintTemplates);
@@ -51,7 +52,7 @@ export class EntityFactory {
         return blueprint;
     }
 
-    private buildBlueprintsFromTemplates(blueprintTemplates: Set<Blueprint>): Set<BlueprintClass> {
+    private buildBlueprintsFromTemplates(blueprintTemplates: Set<Blueprint<T>>): Set<BlueprintClass> {
         return new Set(Array.from(blueprintTemplates, x => new BlueprintClass({
             name: x.name,
             blueprintComponents: this.getComponentsFromTemplates(x.components),
@@ -59,7 +60,7 @@ export class EntityFactory {
         })));
     }
 
-    private hasBlueprints(blueprintTemplate: Blueprint) {
+    private hasBlueprints(blueprintTemplate: Blueprint<T>) {
         return blueprintTemplate.blueprints && blueprintTemplate.blueprints.length > 0;
     }
 
@@ -79,7 +80,7 @@ export class EntityFactory {
         }
     }
 
-    private validateBlueprints(blueprints: Set<Blueprint>): boolean {
+    private validateBlueprints(blueprints: Set<Blueprint<T>>): boolean {
         if(Array.from(blueprints).some(b => !b.name || b.name.length < 1)) {
             throw new Error('All blueprints must have a name.');
         }

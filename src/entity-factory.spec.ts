@@ -8,6 +8,7 @@ import { Blueprint } from "./blueprint";
 describe("Entity factory works", function () {
     it("Can make entity", function () {
         class TestComponent1 implements Component {
+            value: any;
             name: string;
         }
         let testComponents = { TestComponent1 };
@@ -28,15 +29,19 @@ describe("Entity factory works", function () {
 
     it("Built entity inherits components from other blueprints", function () {
         class TestComponent1 implements Component {
+            value: any;
             name: string;
         }
         class TestComponent2 implements Component {
+            value: any;
             name: string;
         }
         class TestComponent3 implements Component {
+            value: any;
             name: string;
         }
         class TestComponent4 implements Component {
+            value: any;
             name: string;
         }
         let testComponents = { TestComponent1, TestComponent2, TestComponent3, TestComponent4 };

@@ -7,16 +7,18 @@ import { Component } from "./Component";
 import { Entity } from "./Entity";
 
 class MyComponent implements Component {
+  value: any;
   name: string;
 }
 
 class MyOtherComponent implements Component {
+  value: any;
   name: string;
 }
 
 let comps= {
-  'COMP1': MyComponent,
-  'COMP2': MyOtherComponent
+  'COMP1': new MyComponent(),
+  'COMP2': new MyOtherComponent()
 }
 
 describe("Families work", function() {

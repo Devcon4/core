@@ -1,5 +1,6 @@
 interface Component {
   readonly name: string;
+  value: any;
 }
 
 interface ComponentClass<T extends Component> {

@@ -24,12 +24,12 @@ class Engine<T extends {[k: string]: Component}> {
   /** Checks if the system needs sorting of some sort */
   private _systemsNeedSorting: boolean = false;
   /** Factory for creating entities based off blueprints */
-  private entityFactory: EntityFactory;
+  private entityFactory: EntityFactory<T>;
   /** Enum of all blueprints for type checking purposes */
   private blueprintTypes;
 
-  private _components: T;
-  private _blueprints: Set<Blueprint>;
+  public _components: T;
+  private _blueprints: Set<Blueprint<T>>;
   lits: keyof T;
 
   /**
@@ -38,7 +38,7 @@ class Engine<T extends {[k: string]: Component}> {
    * @param components Exported module containing all components.
    * @param blueprintTypes Optional enum of blueprint types for type checking. 
    */
-  constructor(components: T, blueprints: Set<Blueprint>, blueprintTypes?) {
+  constructor(components: T, blueprints: Set<Blueprint<T>>, blueprintTypes?) {
     this._components = components;
     this._blueprints = blueprints;
     this.blueprintTypes = blueprintTypes ? blueprintTypes : undefined;
@@ -201,21 +201,21 @@ class Engine<T extends {[k: string]: Component}> {
     }
   }
 
-  addBlueprint(blueprint: Blueprint) {
+  addBlueprint(blueprint: Blueprint<T>) {
     if (!this._blueprints.has(blueprint)) {
       this._blueprints.add(blueprint);
     }
   }
 
-  addBlueprints(...blueprints: Blueprint[]) {
+  addBlueprints(...blueprints: Blueprint<T>[]) {
     blueprints.forEach(this.addBlueprint);
   }
 
-  removeBlueprint(blueprint: Blueprint) {
+  removeBlueprint(blueprint: Blueprint<T>) {
     this._blueprints.delete(blueprint);
   }
 
-  removeBlueprints(...blueprints: Blueprint[]) {
+  removeBlueprints(...blueprints: Blueprint<T>[]) {
     blueprints.forEach(this.removeBlueprint);
   }
 

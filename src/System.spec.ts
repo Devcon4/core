@@ -7,9 +7,11 @@ import { Family, FamilyBuilder } from "./Family";
 import { Component } from "./Component";
 
 class TestClass1 implements Component {
+  value: any;
   name: string;
 }
 class TestClass2 implements Component {
+  value: any;
   name: string;
 }
 
