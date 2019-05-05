@@ -18,7 +18,7 @@ describe("Engine works", function () {
     it("BuildEntity gets called", function () {
         var mockBuildEntity = sinon.fake();
         var mockEntityFactory = {buildEntity: mockBuildEntity};
-        let engine = new Engine({}, undefined);
+        let engine = new Engine({}, new Set());
         engine['entityFactory'] = <EntityFactory>mockEntityFactory;
         engine.buildEntity('test');
         sinon.assert.called(mockBuildEntity);
@@ -28,7 +28,7 @@ describe("Engine works", function () {
         enum types { blueprint1, blueprint2 };
         var mockBuildEntity = sinon.fake();
         var mockEntityFactory = {buildEntity: mockBuildEntity};
-        let engine = new Engine({}, undefined, types);
+        let engine = new Engine({}, new Set(), types);
         engine['entityFactory'] = <EntityFactory>mockEntityFactory;
         engine.buildEntity(types.blueprint2);
         sinon.assert.calledWith(mockBuildEntity, 'blueprint2');
@@ -43,7 +43,7 @@ describe("Engine works", function () {
             'COMP2': new comp2(),
         };
 
-        let engine = new Engine(comps, undefined, types);
+        let engine = new Engine(comps, new Set(), types);
         engine['entityFactory'] = <EntityFactory>mockEntityFactory;
         expect(() => engine.buildEntity(`test`)).to.throw('Invalid blueprint type: test');
         sinon.assert.notCalled(mockBuildEntity);

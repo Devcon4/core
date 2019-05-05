@@ -62,7 +62,7 @@
 					<a href="_family_.abstractfamily.html">AbstractFamily</a>
 				</li>
 			</ul>
-			<h1>Class AbstractFamily</h1>
+			<h1>Class AbstractFamily&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -76,6 +76,14 @@
 						This class is private to this module.</p>
 					</div>
 				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></h4>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
@@ -139,19 +147,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Abstract<wbr>Family<span class="tsd-signature-symbol">(</span>engine<span class="tsd-signature-symbol">: </span><a href="_engine_.engine.html" class="tsd-signature-type">Engine</a>, include<span class="tsd-signature-symbol">: </span><a href="../interfaces/_component_.componentclass.html" class="tsd-signature-type">ComponentClass</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_component_.component.html" class="tsd-signature-type">Component</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span>, exclude<span class="tsd-signature-symbol">: </span><a href="../interfaces/_component_.componentclass.html" class="tsd-signature-type">ComponentClass</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_component_.component.html" class="tsd-signature-type">Component</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_family_.abstractfamily.html" class="tsd-signature-type">AbstractFamily</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Abstract<wbr>Family<span class="tsd-signature-symbol">(</span>engine<span class="tsd-signature-symbol">: </span><a href="_engine_.engine.html" class="tsd-signature-type">Engine</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, include<span class="tsd-signature-symbol">: </span><a href="../interfaces/_component_.componentclass.html" class="tsd-signature-type">ComponentClass</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_component_.component.html" class="tsd-signature-type">Component</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span>, exclude<span class="tsd-signature-symbol">: </span><a href="../interfaces/_component_.componentclass.html" class="tsd-signature-type">ComponentClass</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_component_.component.html" class="tsd-signature-type">Component</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_family_.abstractfamily.html" class="tsd-signature-type">AbstractFamily</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Devcon4/core/blob/58ad819/src/family.ts#L29">family.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/Devcon4/core/blob/9aa1d0a/src/family.ts#L29">family.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>engine: <a href="_engine_.engine.html" class="tsd-signature-type">Engine</a></h5>
+									<h5>engine: <a href="_engine_.engine.html" class="tsd-signature-type">Engine</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>include: <a href="../interfaces/_component_.componentclass.html" class="tsd-signature-type">ComponentClass</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_component_.component.html" class="tsd-signature-type">Component</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h5>
@@ -170,10 +178,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-not-exported">
 					<a name="_engine" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _engine</h3>
-					<div class="tsd-signature tsd-kind-icon">_engine<span class="tsd-signature-symbol">:</span> <a href="_engine_.engine.html" class="tsd-signature-type">Engine</a></div>
+					<div class="tsd-signature tsd-kind-icon">_engine<span class="tsd-signature-symbol">:</span> <a href="_engine_.engine.html" class="tsd-signature-type">Engine</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Devcon4/core/blob/58ad819/src/family.ts#L27">family.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/Devcon4/core/blob/9aa1d0a/src/family.ts#L27">family.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -183,7 +191,7 @@
 					<div class="tsd-signature tsd-kind-icon">_exclude<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_component_.componentclass.html" class="tsd-signature-type">ComponentClass</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_component_.component.html" class="tsd-signature-type">Component</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Devcon4/core/blob/58ad819/src/family.ts#L29">family.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/Devcon4/core/blob/9aa1d0a/src/family.ts#L29">family.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -193,7 +201,7 @@
 					<div class="tsd-signature tsd-kind-icon">_include<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_component_.componentclass.html" class="tsd-signature-type">ComponentClass</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_component_.component.html" class="tsd-signature-type">Component</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Devcon4/core/blob/58ad819/src/family.ts#L28">family.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/Devcon4/core/blob/9aa1d0a/src/family.ts#L28">family.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -204,7 +212,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_family_.family.html">Family</a>.<a href="../interfaces/_family_.family.html#entities">entities</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Devcon4/core/blob/58ad819/src/family.ts#L45">family.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/Devcon4/core/blob/9aa1d0a/src/family.ts#L45">family.ts:45</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -215,16 +223,16 @@
 					<a name="engine" class="tsd-anchor"></a>
 					<h3>engine</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> engine<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_engine_.engine.html" class="tsd-signature-type">Engine</a></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> engine<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_engine_.engine.html" class="tsd-signature-type">Engine</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Devcon4/core/blob/58ad819/src/family.ts#L41">family.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/Devcon4/core/blob/9aa1d0a/src/family.ts#L41">family.ts:41</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="_engine_.engine.html" class="tsd-signature-type">Engine</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_engine_.engine.html" class="tsd-signature-type">Engine</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -242,7 +250,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_family_.family.html">Family</a>.<a href="../interfaces/_family_.family.html#includesentity">includesEntity</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Devcon4/core/blob/58ad819/src/family.ts#L47">family.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/Devcon4/core/blob/9aa1d0a/src/family.ts#L47">family.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -293,7 +301,7 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-is-private tsd-is-not-exported">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-private tsd-is-not-exported">
 						<a href="_family_.abstractfamily.html" class="tsd-kind-icon">Abstract<wbr>Family</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
@@ -321,13 +329,13 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
 						<a href="_family_.cachedfamily.html" class="tsd-kind-icon">Cached<wbr>Family</a>
 					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
 						<a href="_family_.familybuilder.html" class="tsd-kind-icon">Family<wbr>Builder</a>
 					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-private tsd-is-not-exported">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-private tsd-is-not-exported">
 						<a href="_family_.noncachedfamily.html" class="tsd-kind-icon">Non<wbr>Cached<wbr>Family</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
