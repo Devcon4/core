@@ -2,24 +2,25 @@ import { Entity } from "./entity";
 import { System } from "./system";
 import { EntityFactory } from "./entity-factory";
 import { Blueprint } from "./blueprint";
+import { Component } from "./component";
 
 interface EngineEntityListener {
   onEntityAdded(entity: Entity): void;
   onEntityRemoved(entity: Entity): void;
 }
-
+//, U extends keyof T, V extends T[keyof T]
 /**
  * An engine is the class than combines systems and entities.
  * You may have one Engine in your application, but you can make as many as
  * you want.
  */
-class Engine {
+class Engine<T extends {[k: string]: Component}> {
   /** Private array containing the current list of added entities. */
   private _entities: Entity[] = [];
   /** Private list of entity listeners */
   private readonly _entityListeners: EngineEntityListener[] = [];
   /** Private list of added systems. */
-  private readonly _systems: System[] = [];
+  private readonly _systems: System<any, T>[] = [];
   /** Checks if the system needs sorting of some sort */
   private _systemsNeedSorting: boolean = false;
   /** Factory for creating entities based off blueprints */
@@ -27,16 +28,26 @@ class Engine {
   /** Enum of all blueprints for type checking purposes */
   private blueprintTypes;
 
+  private _components: T;
+  private _blueprints: Set<Blueprint>;
+  lits: keyof T;
+
   /**
    * Constructs new engine.
    * @param blueprints Array of blueprints.
    * @param components Exported module containing all components.
    * @param blueprintTypes Optional enum of blueprint types for type checking. 
    */
-  constructor(components, blueprints: Blueprint[], blueprintTypes?) {
-    this.entityFactory = new EntityFactory(blueprints, components);
+  constructor(components: T, blueprints: Set<Blueprint>, blueprintTypes?) {
+    this._components = components;
+    this._blueprints = blueprints;
     this.blueprintTypes = blueprintTypes ? blueprintTypes : undefined;
   }
+
+  startup() {
+    this.entityFactory = new EntityFactory(this._blueprints, this._components);
+  }
+
   /**
    * Builds entity from blueprint.
    * @param type The enum type or name of blueprint to create entity from. 
@@ -62,7 +73,7 @@ class Engine {
    * Alerts the engine to sort systems by priority.
    * @param system The system than changed priority
    */
-  notifyPriorityChange(system: System) {
+  notifyPriorityChange(system: System<any, T>) {
     this._systemsNeedSorting = true;
   }
 
@@ -147,7 +158,7 @@ class Engine {
    * Adds a system to the engine.
    * @param system The system to add.
    */
-  addSystem(system: System) {
+  addSystem<U extends keyof T>(system: System<U, T>) {
     const index = this._systems.indexOf(system);
     if (index === -1) {
       this._systems.push(system);
@@ -161,7 +172,7 @@ class Engine {
    * Adds a list of systems to the engine.
    * @param systems The list of systems to add.
    */
-  addSystems(...systems: System[]) {
+  addSystems<U extends keyof T>(...systems: System<U, T>[]) {
     for (let system of systems) {
       this.addSystem(system);
     }
@@ -171,7 +182,7 @@ class Engine {
    * Removes a system to the engine.
    * @param system The system to remove.
    */
-  removeSystem(system: System) {
+  removeSystem<U extends keyof T>(system: System<U, T>) {
     const index = this._systems.indexOf(system);
     if (index !== -1) {
       this._systems.splice(index, 1);
@@ -184,10 +195,28 @@ class Engine {
    * Removes a list of systems to the engine.
    * @param systems The list of systems to remove.
    */
-  removeSystems(...systems: System[]) {
+  removeSystems<U extends keyof T>(...systems: System<U, T>[]) {
     for (let system of systems) {
       this.removeSystem(system);
     }
+  }
+
+  addBlueprint(blueprint: Blueprint) {
+    if (!this._blueprints.has(blueprint)) {
+      this._blueprints.add(blueprint);
+    }
+  }
+
+  addBlueprints(...blueprints: Blueprint[]) {
+    blueprints.forEach(this.addBlueprint);
+  }
+
+  removeBlueprint(blueprint: Blueprint) {
+    this._blueprints.delete(blueprint);
+  }
+
+  removeBlueprints(...blueprints: Blueprint[]) {
+    blueprints.forEach(this.removeBlueprint);
   }
 
   /**

@@ -6,13 +6,22 @@ import { Engine } from "./Engine";
 import { Component } from "./Component";
 import { Entity } from "./Entity";
 
-class MyComponent implements Component {}
+class MyComponent implements Component {
+  name: string;
+}
 
-class MyOtherComponent implements Component {}
+class MyOtherComponent implements Component {
+  name: string;
+}
+
+let comps= {
+  'COMP1': MyComponent,
+  'COMP2': MyOtherComponent
+}
 
 describe("Families work", function() {
   it("Empty family returns all entities", function() {
-    const engine = new Engine([], []);
+    const engine = new Engine(comps, new Set());
     engine.addEntities(new Entity(), new Entity());
     const builder = new FamilyBuilder(engine);
     const family = builder.build();
@@ -23,7 +32,7 @@ describe("Families work", function() {
     expect(() => builder.build()).to.throw();
   });
   it("Family includes the corresponding entity for inclusion", function() {
-    const engine = new Engine([], []);
+    const engine = new Engine(comps, new Set());
     const entity = new Entity();
     entity.putComponent(MyComponent);
     entity.putComponent(MyOtherComponent);
@@ -36,7 +45,7 @@ describe("Families work", function() {
     expect(family.entities.length).to.not.be.equals(0);
   });
   it("Family includes the corresponding entity for exclusion", function() {
-    const engine = new Engine([], []);
+    const engine = new Engine(comps, new Set());
     const entity = new Entity();
     entity.putComponent(MyComponent);
     engine.addEntities(entity, new Entity());

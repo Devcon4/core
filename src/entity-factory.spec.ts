@@ -7,17 +7,19 @@ import { Blueprint } from "./blueprint";
 
 describe("Entity factory works", function () {
     it("Can make entity", function () {
-        class TestComponent1 implements Component {}
+        class TestComponent1 implements Component {
+            name: string;
+        }
         let testComponents = { TestComponent1 };
 
-        let testBlueprints: Blueprint[] = [
+        let testBlueprints = new Set([
             {
                 name: "Base",
                 components: [
                     { name: "TestComponent1" }
                 ]
             }
-        ];
+        ]);
 
         const factory = new EntityFactory(testBlueprints, testComponents);
         let entity = factory.buildEntity(<any>"Base");
@@ -25,13 +27,21 @@ describe("Entity factory works", function () {
     });
 
     it("Built entity inherits components from other blueprints", function () {
-        class TestComponent1 implements Component {}
-        class TestComponent2 implements Component {}
-        class TestComponent3 implements Component {}
-        class TestComponent4 implements Component {}
+        class TestComponent1 implements Component {
+            name: string;
+        }
+        class TestComponent2 implements Component {
+            name: string;
+        }
+        class TestComponent3 implements Component {
+            name: string;
+        }
+        class TestComponent4 implements Component {
+            name: string;
+        }
         let testComponents = { TestComponent1, TestComponent2, TestComponent3, TestComponent4 };
 
-        let testBlueprints = [
+        let testBlueprints = new Set([
             {
                 "name": "Base",
                 "components": [
@@ -53,7 +63,7 @@ describe("Entity factory works", function () {
                     { "name": "TestComponent4" }
                 ]
             }
-        ];
+        ]);
         const factory = new EntityFactory(testBlueprints, testComponents);
         let entity = factory.buildEntity(<any>"InheritsTwice");
         expect(entity.hasComponent(TestComponent1)).to.be.true;
@@ -63,12 +73,15 @@ describe("Entity factory works", function () {
     });
 
     it("Child blueprint overrides inherited component values", function () {
-        class TestComponent1 implements Component { value = 'default'; value2 = 'untouched' }
-        class TestComponent2 implements Component { value = 'default'; }
-        class TestComponent3 implements Component { value = 'default'; }
+        class TestComponent1 implements Component {
+            name: string; value = 'default'; value2 = 'untouched' }
+        class TestComponent2 implements Component {
+            name: string; value = 'default'; }
+        class TestComponent3 implements Component {
+            name: string; value = 'default'; }
         let testComponents = { TestComponent1, TestComponent2, TestComponent3 };
 
-        let testBlueprints = [
+        let testBlueprints = new Set([
             {
                 "name": "Base",
                 "blueprints": [],
@@ -85,7 +98,7 @@ describe("Entity factory works", function () {
                     { "name": "TestComponent2", "values": {value: 'inheritsChanged'} }
                 ]
             }
-        ];
+        ]);
         const factory = new EntityFactory(testBlueprints, testComponents);
         let entity = factory.buildEntity(<any>"Inherits");
         expect(entity.getComponent(TestComponent1).value).to.equal('baseChanged');
@@ -95,26 +108,18 @@ describe("Entity factory works", function () {
     });
 
     it("Blueprint must implement at least one component", function () {
-        const factory = new EntityFactory([], {});
+        const factory = new EntityFactory(new Set(), {});
         expect(() => factory['getComponentsFromTemplates']([])).to.throw();
     });
     
     it("Blueprint type must exist", function () {
         //TODO enter actual array of types
-        const factory = new EntityFactory([], {});
+        const factory = new EntityFactory(new Set(), {});
         expect(() => factory['getBlueprintFromName'](<any>'NotFound')).to.throw();
     });
 
-    it("Templates should exist", function () {
-        expect(() => new EntityFactory(<Blueprint[]><unknown>undefined, {})).to.throw('Must input array of blueprint templates.');
-    });
-
-    it("Blueprint templates should be array", function () {
-        expect(() => new EntityFactory(<Blueprint[]><unknown>undefined, {})).to.throw('Must input array of blueprint templates.');
-    });
-
     it("Blueprint templates must all have a name", function () {
-        let testBlueprints = [
+        let testBlueprints = new Set([
             {
                 "name": "Base",
                 "blueprints": [],
@@ -131,36 +136,12 @@ describe("Entity factory works", function () {
                     { "name": "TestComponent2", "values": {value: 'inheritsChanged'} }
                 ]
             }
-        ];
+        ]);
         expect(() => new EntityFactory(testBlueprints, {})).to.throw('All blueprints must have a name.');
     });
 
-    it("Blueprint templates must all have a unique name", function () {
-        let testBlueprints = [
-            {
-                "name": "Same",
-                "components": [
-                    { "name": "TestComponent1" }
-                ]
-            },
-            {
-                "name": "different",
-                "components": [
-                    { "name": "TestComponent1" }
-                ]
-            },
-            {
-                "name": "Same",
-                "components": [
-                    { "name": "TestComponent1" }
-                ]
-            },
-        ];
-        expect(() => new EntityFactory(testBlueprints, {})).to.throw('All blueprints must have a unique name.');
-    });
-
     it("Blueprint templates must all implement one or more components", function () {
-        let testBlueprints: any[] = [
+        let testBlueprints = new Set([
             {
                 "name": "Same",
                 "components": [
@@ -171,21 +152,7 @@ describe("Entity factory works", function () {
                 "name": "different",
                 "components": []
             }
-        ];
+        ]);
         expect(() => new EntityFactory(testBlueprints, {})).to.throw('All blueprints must implement one or more components.');
-        
-        testBlueprints = [
-            {
-                "name": "Same",
-                "components": [
-                    { "name": "TestComponent1" }
-                ]
-            },
-            {
-                "name": "different"
-            }
-        ];
-        expect(() => new EntityFactory(testBlueprints, {})).to.throw('All blueprints must implement one or more components.');
-    
     });
 });

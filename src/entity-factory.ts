@@ -2,12 +2,12 @@ import { BlueprintClass, BlueprintComponent, Blueprint } from "./blueprint";
 import { Entity } from "./entity";
 
 export class EntityFactory {
-    private blueprints: BlueprintClass[] = [];
+    private blueprints: Set<BlueprintClass> = new Set();
     private components;
 
     // TODO - Consider a caching strategy if we've already built an entity;
     
-    constructor(blueprintTemplates: Blueprint[], componentModule) {
+    constructor(blueprintTemplates: Set<Blueprint>, componentModule) {
         if(this.validateBlueprints(blueprintTemplates)) {
             this.components = componentModule;
             this.blueprints = this.buildBlueprintsFromTemplates(blueprintTemplates);
@@ -44,21 +44,19 @@ export class EntityFactory {
     }
 
     private getBlueprintFromName(name: string): BlueprintClass {
-        let blueprint = this.blueprints.find(x => x.name === name);
+        let blueprint = Array.from(this.blueprints).find(x => x.name === name);
         if (!blueprint) {
             throw new Error("Cannot find blueprint by that name.");
         }
         return blueprint;
     }
 
-    private buildBlueprintsFromTemplates(blueprintTemplates: Blueprint[]): BlueprintClass[] {
-        return blueprintTemplates.map(x =>
-            new BlueprintClass({
-                name: x.name,
-                blueprintComponents: this.getComponentsFromTemplates(x.components),
-                blueprintNames: this.hasBlueprints(x) ? x.blueprints : []
-            })
-        );
+    private buildBlueprintsFromTemplates(blueprintTemplates: Set<Blueprint>): Set<BlueprintClass> {
+        return new Set(Array.from(blueprintTemplates, x => new BlueprintClass({
+            name: x.name,
+            blueprintComponents: this.getComponentsFromTemplates(x.components),
+            blueprintNames: this.hasBlueprints(x) ? x.blueprints : []
+        })));
     }
 
     private hasBlueprints(blueprintTemplate: Blueprint) {
@@ -81,17 +79,11 @@ export class EntityFactory {
         }
     }
 
-    private validateBlueprints(blueprints: Blueprint[]): boolean {
-        if(!blueprints || !Array.isArray(blueprints)) {
-            throw new Error('Must input array of blueprint templates.');
-        }
-        if(blueprints.some(b => !b.name || b.name.length < 1)) {
+    private validateBlueprints(blueprints: Set<Blueprint>): boolean {
+        if(Array.from(blueprints).some(b => !b.name || b.name.length < 1)) {
             throw new Error('All blueprints must have a name.');
         }
-        if(new Set(blueprints.map(b => b.name.toLowerCase())).size !== blueprints.length) {
-            throw new Error('All blueprints must have a unique name.');
-        }
-        if(blueprints.some(b => !b.components || b.components.length === 0)) {
+        if(Array.from(blueprints).some(b => !b.components || b.components.length === 0)) {
             throw new Error('All blueprints must implement one or more components.');
         }
         // TODO - All blueprint name references must exist.

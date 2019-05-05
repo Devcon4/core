@@ -5,9 +5,12 @@ import { Component } from "./Component";
 
 import { Entity } from "./Entity";
 
-class MyComponent implements Component {}
+class MyComponent implements Component {
+  name: string;
+}
 
 class MyBadTagComponent implements Component {
+  name: string;
   static readonly tag = "MyComponent";
 }
 
