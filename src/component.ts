@@ -1,6 +1,6 @@
-interface Component {
+abstract class Component {
   readonly name: string;
-  value: any;
+  abstract state: unknown;
 }
 
 interface ComponentClass<T extends Component> {

@@ -19,8 +19,25 @@ export class BlueprintComponent {
     }
 }
 
-export interface Blueprint<T extends {[k: string]: Component}> {
+export class Blueprint<T extends {[k: string]: Component}, U> {
+    name: keyof U;
+    components: Partial<{ [k in keyof T]: T[k][keyof Pick<T[k], 'state'>]}>;
+    blueprints?: Array<keyof U>;
+
+    constructor(args: Partial<Blueprint<T, U>>) {
+        Object.assign(this, args);
+    }
+}
+
+/*
+export interface Blueprint<T extends {[k: string]: Component}, U> {
     name: string;
-    components: Partial<{ [k in keyof T]: T[k][keyof Pick<T[k], 'value'>]}>,
-    blueprints?: string[]
+    components: Partial<{ [k in keyof T]: T[k][keyof Pick<T[k], 'state'>]}>,
+    blueprints?: Array<keyof U>;
+}
+
+*/
+
+export function BlueprintArray<T extends {[k: string]: Component}, U extends {[k: string]: Blueprint<T, U>}>(blueprints: U) {
+    return blueprints;
 }

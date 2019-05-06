@@ -8,13 +8,14 @@ interface EngineEntityListener {
   onEntityAdded(entity: Entity): void;
   onEntityRemoved(entity: Entity): void;
 }
+
 //, U extends keyof T, V extends T[keyof T]
 /**
  * An engine is the class than combines systems and entities.
  * You may have one Engine in your application, but you can make as many as
  * you want.
  */
-class Engine<T extends {[k: string]: Component}> {
+class Engine<T extends {[k: string]: Component}, U> {
   /** Private array containing the current list of added entities. */
   private _entities: Entity[] = [];
   /** Private list of entity listeners */
@@ -26,10 +27,10 @@ class Engine<T extends {[k: string]: Component}> {
   /** Factory for creating entities based off blueprints */
   private entityFactory: EntityFactory<T>;
   /** Enum of all blueprints for type checking purposes */
-  private blueprintTypes;
+  private blueprintTypes?: U;
 
   public _components: T;
-  private _blueprints: Set<Blueprint<T>>;
+  private _blueprints: Set<Blueprint<T, U>> = new Set();
   lits: keyof T;
 
   /**
@@ -38,9 +39,8 @@ class Engine<T extends {[k: string]: Component}> {
    * @param components Exported module containing all components.
    * @param blueprintTypes Optional enum of blueprint types for type checking. 
    */
-  constructor(components: T, blueprints: Set<Blueprint<T>>, blueprintTypes?) {
+  constructor(components: T, blueprintTypes?: U) {
     this._components = components;
-    this._blueprints = blueprints;
     this.blueprintTypes = blueprintTypes ? blueprintTypes : undefined;
   }
 
@@ -201,21 +201,21 @@ class Engine<T extends {[k: string]: Component}> {
     }
   }
 
-  addBlueprint(blueprint: Blueprint<T>) {
+  addBlueprint(blueprint: Blueprint<T, U>) {
     if (!this._blueprints.has(blueprint)) {
       this._blueprints.add(blueprint);
     }
   }
 
-  addBlueprints(...blueprints: Blueprint<T>[]) {
+  addBlueprints(...blueprints: Blueprint<T, U>[]) {
     blueprints.forEach(this.addBlueprint);
   }
 
-  removeBlueprint(blueprint: Blueprint<T>) {
+  removeBlueprint(blueprint: Blueprint<T, U>) {
     this._blueprints.delete(blueprint);
   }
 
-  removeBlueprints(...blueprints: Blueprint<T>[]) {
+  removeBlueprints(...blueprints: Blueprint<T, U>[]) {
     blueprints.forEach(this.removeBlueprint);
   }
 

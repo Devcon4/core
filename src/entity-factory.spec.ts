@@ -8,69 +8,78 @@ import { Blueprint } from "./blueprint";
 describe("Entity factory works", function () {
     it("Can make entity", function () {
         class TestComponent1 implements Component {
-            value: any;
+            state: number;
             name: string;
         }
-        let testComponents = { TestComponent1 };
 
-        let testBlueprints = new Set([
-            {
-                name: "Base",
-                components: [
-                    { name: "TestComponent1" }
-                ]
+        enum types {
+            blueprint1 = 'blueprint1',
+            blueprint2 = 'blueprint2'
+        }
+
+        let comps = { 'COMP1': new TestComponent1() };
+
+        let testBlueprints: {[k in types]: Blueprint<typeof comps, typeof types>} = {
+            blueprint1: {
+                name: "blueprint1",
+                components: {COMP1: 2}
+            },
+            blueprint2: {
+                name: 'blueprint2',
+                components: {COMP1: 4}
             }
-        ]);
+        };
 
-        const factory = new EntityFactory(testBlueprints, testComponents);
-        let entity = factory.buildEntity(<any>"Base");
+        const factory = new EntityFactory<typeof comps, typeof types>(comps, testBlueprints);
+        let entity = factory.buidEntity('blueprint2');
         expect(entity.hasComponent(TestComponent1)).to.be.true;
     });
 
     it("Built entity inherits components from other blueprints", function () {
         class TestComponent1 implements Component {
-            value: any;
+            state: number;
             name: string;
         }
         class TestComponent2 implements Component {
-            value: any;
+            state: number;
             name: string;
         }
         class TestComponent3 implements Component {
-            value: any;
+            state: number;
             name: string;
         }
         class TestComponent4 implements Component {
-            value: any;
+            state: number;
             name: string;
         }
-        let testComponents = { TestComponent1, TestComponent2, TestComponent3, TestComponent4 };
 
-        let testBlueprints = new Set([
-            {
-                "name": "Base",
-                "components": [
-                    { "name": "TestComponent1" }
-                ]
+        enum types {
+            base = 'base',
+            inherits = 'inherits',
+            inheritsTwice = 'inheritsTwice'
+        }
+
+        let comps = { 'COMP1': new TestComponent1(), 'COMP2': new TestComponent2(), 'COMP3': new TestComponent3(), 'COMP4': new TestComponent4() };
+
+        let testBlueprints: {[k in types]: Blueprint<typeof comps, typeof types>} = {
+            base: {
+                name: 'base',
+                components: {COMP1: 1}
             },
-            {
-                "name": "Inherits",
-                "blueprints": ["Base"],
-                "components": [
-                    { "name": "TestComponent2" },
-                    { "name": "TestComponent3" }
-                ]
+            inherits: {
+                name: 'inherits',
+                components: {COMP2: 2, COMP3: 3},
+                blueprints: ['base']
             },
-            {
-                "name": "InheritsTwice",
-                "blueprints": ["Inherits"],
-                "components": [
-                    { "name": "TestComponent4" }
-                ]
+            inheritsTwice: {
+                name: 'inheritsTwice',
+                components: {COMP4: 4},
+                blueprints: ['inheritsTwice']
             }
-        ]);
-        const factory = new EntityFactory(testBlueprints, testComponents);
-        let entity = factory.buildEntity(<any>"InheritsTwice");
+        };
+
+        const factory = new EntityFactory<typeof comps, typeof types>(comps, testBlueprints);
+        let entity = factory.buidEntity('inheritsTwice');
         expect(entity.hasComponent(TestComponent1)).to.be.true;
         expect(entity.hasComponent(TestComponent2)).to.be.true;
         expect(entity.hasComponent(TestComponent3)).to.be.true;
@@ -79,11 +88,11 @@ describe("Entity factory works", function () {
 
     it("Child blueprint overrides inherited component values", function () {
         class TestComponent1 implements Component {
-            name: string; value = 'default'; value2 = 'untouched' }
+            name: string; state = 'default'; state2 = 'untouched' }
         class TestComponent2 implements Component {
-            name: string; value = 'default'; }
+            name: string; state = 'default'; }
         class TestComponent3 implements Component {
-            name: string; value = 'default'; }
+            name: string; state = 'default'; }
         let testComponents = { TestComponent1, TestComponent2, TestComponent3 };
 
         let testBlueprints = new Set([
